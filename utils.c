@@ -33,3 +33,40 @@ void	ft_putnbr(size_t n)
 		ft_putnbr(n / 10);
 	ft_putchar(n % 10 + 48);
 }
+
+static int	ternary_norm(int cond, int a, int b)
+{
+	if (cond)
+		return (a);
+	else
+		return (b);
+}
+
+int	ft_atoi(const char *str)
+{
+	int				i;
+	int				sign;
+	size_t			result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+		i++;
+	if (str[i] == 43 || str[i] == 45)
+	{
+		sign = ternary_norm(str[i] == 45, -1, 1);
+		i++;
+	}
+	while (str[i] != '\0' && (str[i] >= 48 && str[i] <= 57))
+	{
+		result *= 10;
+		result += str[i] - 48;
+		i++;
+	}
+	if (result > 9223372036854775807 && sign == 1)
+		return (-1);
+	else if (result > 9223372036854775807 && sign == -1)
+		return (0);
+	return ((int)result * sign);
+}
