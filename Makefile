@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME		= minitalk
+
 SRC			= utils.c
 
 CFLAGS		= -Wall -Werror -Wextra
@@ -17,6 +19,8 @@ CFLAGS		= -Wall -Werror -Wextra
 SERVER		= server
 
 CLIENT		= client
+
+$(NAME)		: $(SERVER) $(CLIENT)
 
 $(SERVER)	:
 	@gcc $(CFLAGS) receiver.c $(SRC) -o $(SERVER) && echo "Plugging things..."
