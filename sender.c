@@ -12,48 +12,63 @@
 
 #include "utils.h"
 
-int	main(int argc, char *argv[])
+static int	send_sig(int pid, int sig)
 {
-	int		i;
-	size_t	j;
-	int		shift;
+		ft_putnbr(sig);
+		ft_putchar('\n');
+	if (kill(pid, sig))
+	{
+		ft_putstr("Failed to send a signal!\n");
+		ft_putnbr(pid);
+		return (0);
+	}
+	else
+	{
+		return (1);
+	}
+}
+
+static void	send_message(int pid, char *str)
+{
+	size_t	i;
 	int		bits;
-	char	*str;
 
 	i = 0;
-	j = 0;
-	shift = 0;
-
-	if (argc > 2)
+	while (str[i])
 	{
-		i = 2;
-		while (argc > i)
+		bits = 7;
+		while (bits >= 0)
 		{
-			str = argv[i];
-
-			while (str[j])
+			// ft_putnbr((str[i] >> bits) & 1);
+			if ((str[i] >> bits) & 1)
 			{
-				bits = 7;
-				while (bits >= 0)
-				{
-					shift = 1;
-					if (str[j] & (1 << bits))
-					{
-						kill(ft_atoi(argv[1]), 31);
-					}
-					else
-						kill(ft_atoi(argv[1]), 30);
-					usleep(100);
-					bits--;
-				}
-				j++;
+				if (!send_sig(pid, SIGUSR2))
+					break;
 			}
-			i++;
+			else
+				if (!send_sig(pid, SIGUSR1))
+					break;
+			usleep(100);
+			bits--;
 		}
+		ft_putchar('\n');
+		i++;
 	}
+}
 
+int	main(int argc, char *argv[])
+{
+	// ft_putnbr(SIGUSR1);
+	// ft_putchar('\n');
+	// ft_putnbr(SIGUSR2);
+	// ft_putchar('\n');
+	if (argc == 3 && ft_atoi(argv[1]) > 0)
+	{
+		send_message(ft_atoi(argv[1]), argv[2]);
+	}
 	else
-		ft_putstr("Please provide a process ID and a message to send!\n");
-
+	{
+		ft_putstr("Please provide a valid PID and a one message to send!\n");
+	}
 	return (0);
 }

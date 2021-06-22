@@ -3,7 +3,7 @@
 int	i;
 int	got[8];
 
-int	power(int base, int power)
+static int	power(int base, int power)
 {
 	int	result;
 
@@ -20,13 +20,15 @@ void	signal_handler(int sign_int)
 {
 	int	j;
 	int	c;
+	
 
-	if (sign_int == 30)
+	c = 0;
+	if (sign_int == SIGUSR1)
 	{
 		got[i] = 0;
 		i++;
 	}
-	else if (sign_int == 31)
+	else if (sign_int == SIGUSR2)
 	{
 		got[i] = 1;
 		i++;
@@ -34,31 +36,18 @@ void	signal_handler(int sign_int)
 
 	if (i == 8)
 	{
-		// ft_putchar('\n');
-		// ft_putnbr(got[0]);
-		// ft_putnbr(got[1]);
-		// ft_putnbr(got[2]);
-		// ft_putnbr(got[3]);
-		// ft_putnbr(got[4]);
-		// ft_putnbr(got[5]);
-		// ft_putnbr(got[6]);
-		// ft_putnbr(got[7]);
-
 		j = 7;
 		i = 0;
 
 		while (i < 8)
 		{
 			c = c + got[i] * power(2, j);
-			ft_putnbr(c);
-			ft_putchar(' ');
 			i++;
 			j--;
 		}
 		i = 0;
-			ft_putchar('\n');
 		ft_putchar(c);
-			ft_putchar('\n');
+		c = 0;
 	}
 }
 
@@ -74,13 +63,7 @@ int	main(void)
 	got[6] = 0;
 	got[7] = 0;
 
-	struct sigaction my_action;
-
-	my_action.sa_handler = signal_handler;
-
-	// printf("%d %d %d %d %d %d %d %d\n",
-	// 		got[0], got[1], got[2], got[3], got[4], got[5], got[6], got[7]);
-
+	ft_putstr("PID : ");
 	ft_putnbr(getpid());
 	ft_putchar('\n');
 	signal(SIGUSR1, signal_handler);
