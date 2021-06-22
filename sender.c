@@ -14,16 +14,15 @@
 
 static int	send_sig(int pid, int sig)
 {
-		ft_putnbr(sig);
-		ft_putchar('\n');
 	if (kill(pid, sig))
 	{
 		ft_putstr("Failed to send a signal!\n");
-		ft_putnbr(pid);
 		return (0);
 	}
 	else
 	{
+		ft_putnbr(sig);
+		ft_putchar('\n');
 		return (1);
 	}
 }
@@ -39,7 +38,6 @@ static void	send_message(int pid, char *str)
 		bits = 7;
 		while (bits >= 0)
 		{
-			// ft_putnbr((str[i] >> bits) & 1);
 			if ((str[i] >> bits) & 1)
 			{
 				if (!send_sig(pid, SIGUSR2))
@@ -48,7 +46,7 @@ static void	send_message(int pid, char *str)
 			else
 				if (!send_sig(pid, SIGUSR1))
 					break;
-			usleep(100);
+			usleep(200);
 			bits--;
 		}
 		ft_putchar('\n');
@@ -58,10 +56,6 @@ static void	send_message(int pid, char *str)
 
 int	main(int argc, char *argv[])
 {
-	// ft_putnbr(SIGUSR1);
-	// ft_putchar('\n');
-	// ft_putnbr(SIGUSR2);
-	// ft_putchar('\n');
 	if (argc == 3 && ft_atoi(argv[1]) > 0)
 	{
 		send_message(ft_atoi(argv[1]), argv[2]);

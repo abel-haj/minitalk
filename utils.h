@@ -1,6 +1,9 @@
 #ifndef UTILS_H
 
 # define UTILS_H
+# define n(x) ft_putnbr(x);
+# define c(x) ft_putchar(x);
+# define s(x) ft_putstr(x);
 
 # include "signal.h"
 # include "unistd.h"

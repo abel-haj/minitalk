@@ -20,7 +20,6 @@ void	signal_handler(int sign_int)
 {
 	int	j;
 	int	c;
-	
 
 	c = 0;
 	if (sign_int == SIGUSR1)
@@ -33,7 +32,6 @@ void	signal_handler(int sign_int)
 		got[i] = 1;
 		i++;
 	}
-
 	if (i == 8)
 	{
 		j = 7;
@@ -41,13 +39,29 @@ void	signal_handler(int sign_int)
 
 		while (i < 8)
 		{
+			// ft_putnbr(c);
+			// ft_putstr(" += ");
+			// ft_putnbr(got[i]);
+			// ft_putstr(" * ");
+			// ft_putnbr(power(2, j));
+			// ft_putstr("\n");
+			n(i)
+			s(":")
+			n(got[i])
+			s(" ")
 			c = c + got[i] * power(2, j);
 			i++;
 			j--;
 		}
 		i = 0;
-		ft_putchar(c);
-		c = 0;
+		ft_putstr("\n");
+		// ft_putchar(c);
+		// if (c < 32 || c > 126)
+		// {
+		// 	ft_putstr("invalid : ");
+		// 	ft_putnbr(c);
+		// 	ft_putchar('\n');
+		// }
 	}
 }
 
