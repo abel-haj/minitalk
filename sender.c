@@ -6,7 +6,7 @@
 /*   By: abel-haj <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:50:33 by abel-haj          #+#    #+#             */
-/*   Updated: 2021/06/20 16:49:00 by abel-haj         ###   ########.fr       */
+/*   Updated: 2021/06/23 15:38:29 by abel-haj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	send_sig(int pid, int sig)
 	}
 	else
 	{
-		ft_putnbr(sig);
-		ft_putchar('\n');
 		return (1);
 	}
 }
@@ -41,15 +39,14 @@ static void	send_message(int pid, char *str)
 			if ((str[i] >> bits) & 1)
 			{
 				if (!send_sig(pid, SIGUSR2))
-					break;
+					break ;
 			}
 			else
 				if (!send_sig(pid, SIGUSR1))
-					break;
-			usleep(200);
+					break ;
+			usleep(100);
 			bits--;
 		}
-		ft_putchar('\n');
 		i++;
 	}
 }
