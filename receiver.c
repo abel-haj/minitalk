@@ -1,8 +1,5 @@
 #include "utils.h"
 
-int	i;
-int	got[8];
-
 static int	power(int base, int power)
 {
 	int	result;
@@ -16,67 +13,95 @@ static int	power(int base, int power)
 	return (result);
 }
 
+static int	concatenate(char **s, char c)
+{
+	size_t	i;
+	size_t	len;
+	char	*tmp;
+
+	i = 0;
+	if (*s == NULL)
+	{
+		*s = malloc(2);
+		if (*s == NULL)
+			return (0);
+		(*s)[0] = c;
+		(*s)[1] = 0;
+	}
+	else
+	{
+		len = ft_strlen(*s);
+		tmp = *s;
+		*s = malloc(len + 2);
+		if (*s == NULL)
+		{
+			free(tmp);
+			return (0);
+		}
+		while (i < len + 1)
+		{
+			if (i < len)
+				(*s)[i] = tmp[i];
+			else
+				(*s)[i] = c;
+			i++;
+		}
+		(*s)[i] = 0;
+		free(tmp);
+	}
+	return (1);
+}
+
+static int 	bintodec(int arr[8])
+{
+	int	i;
+	int	j;
+	int	dec;
+
+	i = 0;
+	j = 7;
+	dec = 0;
+	while (i < 8)
+	{
+		dec = dec + arr[i] * power(2, j);
+		i++;
+		j--;
+	}
+	return (dec);
+}
+
 void	signal_handler(int sign_int)
 {
-	int	j;
-	int	c;
+	int			c;
+	static char	*msg;
+	static int	i = 0;
+	static int	got[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 	c = 0;
 	if (sign_int == SIGUSR1)
-	{
-		got[i] = 0;
-		i++;
-	}
+		got[i++] = 0;
 	else if (sign_int == SIGUSR2)
-	{
-		got[i] = 1;
-		i++;
-	}
+		got[i++] = 1;
 	if (i == 8)
 	{
-		j = 7;
 		i = 0;
-
-		while (i < 8)
+		c = bintodec(got);
+		if (!concatenate(&msg, c))
 		{
-			// ft_putnbr(c);
-			// ft_putstr(" += ");
-			// ft_putnbr(got[i]);
-			// ft_putstr(" * ");
-			// ft_putnbr(power(2, j));
-			// ft_putstr("\n");
-			n(i)
-			s(":")
-			n(got[i])
-			s(" ")
-			c = c + got[i] * power(2, j);
-			i++;
-			j--;
+			ft_putstr("Error occured at malloc");
+			exit(EXIT_FAILURE);
 		}
-		i = 0;
-		ft_putstr("\n");
-		// ft_putchar(c);
-		// if (c < 32 || c > 126)
-		// {
-		// 	ft_putstr("invalid : ");
-		// 	ft_putnbr(c);
-		// 	ft_putchar('\n');
-		// }
+		if (c == 0)
+		{
+			ft_putstr(msg);
+			free(msg);
+			msg = NULL;
+		}
 	}
 }
 
 int	main(void)
 {
-	i = 0;
-	got[0] = 0;
-	got[1] = 0;
-	got[2] = 0;
-	got[3] = 0;
-	got[4] = 0;
-	got[5] = 0;
-	got[6] = 0;
-	got[7] = 0;
-
 	ft_putstr("PID : ");
 	ft_putnbr(getpid());
 	ft_putchar('\n');

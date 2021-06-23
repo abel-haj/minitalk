@@ -28,10 +28,12 @@ static int	send_sig(int pid, int sig)
 static void	send_message(int pid, char *str)
 {
 	size_t	i;
+	size_t	len;
 	int		bits;
 
+	len = ft_strlen(str);
 	i = 0;
-	while (str[i])
+	while (i <= len)
 	{
 		bits = 7;
 		while (bits >= 0)

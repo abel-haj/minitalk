@@ -5,9 +5,10 @@
 # define c(x) ft_putchar(x);
 # define s(x) ft_putstr(x);
 
-# include "signal.h"
-# include "unistd.h"
-# include "stdio.h"
+# include <signal.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
 
 int		ft_atoi(const char *s);
 size_t	ft_strlen(char *s);

@@ -15,6 +15,7 @@ NAME		= minitalk
 SRC			= utils.c
 
 CFLAGS		= -Wall -Werror -Wextra
+LEAKS		= -fsanitize=address
 
 SERVER		= server
 
@@ -23,10 +24,10 @@ CLIENT		= client
 $(NAME)		: $(SERVER) $(CLIENT)
 
 $(SERVER)	:
-	@gcc $(CFLAGS) receiver.c $(SRC) -o $(SERVER) && echo "Plugging things..."
+	@gcc $(CFLAGS) $(LEAKS) receiver.c $(SRC) -o $(SERVER) && echo "Plugging things..."
 
 $(CLIENT)	:
-	@gcc $(CFLAGS) sender.c $(SRC) -o $(CLIENT) && echo "Connecting to network..."
+	@gcc $(CFLAGS) $(LEAKS) sender.c $(SRC) -o $(CLIENT) && echo "Connecting to network..."
 
 all			: $(SERVER) $(CLIENT)
 a				: all
