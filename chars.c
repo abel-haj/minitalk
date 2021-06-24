@@ -1,14 +1,30 @@
-#include <unistd.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   chars.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-haj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/24 16:14:00 by abel-haj          #+#    #+#             */
+/*   Updated: 2021/06/24 16:14:03 by abel-haj         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "utils.h"
 
 int	main(int argc, char *argv[])
 {
-	int		i = 0;
+	int	i;
+	int	j;
+
+	i = 0;
 	if (argc > 2)
 	{
-		for (int i=0; i < atoi(argv[2]); i++)
+		j = ft_atoi(argv[2]);
+		while (i < j)
 		{
-			write(1, &argv[1], 1);
+			write(1, argv[1], 1);
+			i++;
 		}
 	}
 	return (0);
