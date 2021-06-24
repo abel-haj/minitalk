@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   sender.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abel-haj <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 15:50:33 by abel-haj          #+#    #+#             */
-/*   Updated: 2021/06/23 15:38:29 by abel-haj         ###   ########.fr       */
+/*   Created: 2021/06/24 17:23:31 by abel-haj          #+#    #+#             */
+/*   Updated: 2021/06/24 17:23:34 by abel-haj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	send_sig(int pid, int sig)
 {
 	if (kill(pid, sig))
 	{
-		ft_putstr("Failed to send a signal!\n");
+		ft_putstr_char("Failed to send a signal!\n", 0);
 		return (0);
 	}
 	else
@@ -61,7 +61,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		ft_putstr("Please provide a valid PID and a one message to send!\n");
+		ft_putstr_char("Please provide a valid PID and a one message!\n", 0);
 	}
 	return (0);
 }
