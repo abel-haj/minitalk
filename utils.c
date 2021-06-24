@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-haj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/24 16:18:27 by abel-haj          #+#    #+#             */
+/*   Updated: 2021/06/24 16:18:28 by abel-haj         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 size_t	ft_strlen(char *s)
@@ -12,29 +24,27 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-void	ft_putstr(char *s)
+void	ft_putstr_char(char *s, char c)
 {
-	write(1, s, ft_strlen(s));
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
+	if (c)
+		write(1, &c, 1);
+	if (s)
+		write(1, s, ft_strlen(s));
 }
 
 void	ft_putnbr(long int n)
 {
 	if (n < 0)
 	{
-		ft_putchar('-');
+		ft_putstr_char(NULL, '-');
 		n = n * -1;
 	}
 	if (n > 9)
 		ft_putnbr(n / 10);
-	ft_putchar(n % 10 + 48);
+	ft_putstr_char(NULL, n % 10 + 48);
 }
 
-static int	ternary_norm(int cond, int a, int b)
+int	ternary_norm(int cond, int a, int b)
 {
 	if (cond)
 		return (a);
