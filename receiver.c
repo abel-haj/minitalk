@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   receiver.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-haj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/24 16:14:20 by abel-haj          #+#    #+#             */
+/*   Updated: 2021/06/24 16:14:22 by abel-haj         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 static int	power(int base, int power)
@@ -13,13 +25,27 @@ static int	power(int base, int power)
 	return (result);
 }
 
-static int	concatenate(char **s, char c)
+static void	puttogether(char ***s, char *t, char c, size_t l)
 {
 	size_t	i;
+
+	i = 0;
+	while (i < l + 1)
+	{
+		if (i < l)
+			(*(*s))[i] = t[i];
+		else
+			(*(*s))[i] = c;
+		i++;
+	}
+	(*(*s))[i] = 0;
+}
+
+static int	concatenate(char **s, char c)
+{
 	size_t	len;
 	char	*tmp;
 
-	i = 0;
 	if (*s == NULL)
 	{
 		*s = malloc(2);
@@ -38,15 +64,7 @@ static int	concatenate(char **s, char c)
 			free(tmp);
 			return (0);
 		}
-		while (i < len + 1)
-		{
-			if (i < len)
-				(*s)[i] = tmp[i];
-			else
-				(*s)[i] = c;
-			i++;
-		}
-		(*s)[i] = 0;
+		puttogether(&s, tmp, c, len);
 		free(tmp);
 	}
 	return (1);
@@ -73,43 +91,26 @@ static int 	bintodec(int arr[8])
 void	signal_handler(int sign_int)
 {
 	int			c;
-	static char	*msg;
-	static int	i = 0;
-	static int	got[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+	static char	*s_msg;
+	static int	s_i = 0;
+	static int	s_got[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 	c = 0;
-	if (sign_int == SIGUSR1)
-		got[i++] = 0;
-	else if (sign_int == SIGUSR2)
-		got[i++] = 1;
-	if (i == 8)
+	s_got[s_i++] = ternary_norm(sign_int == SIGUSR1, 0, 1);
+	if (s_i == 8)
 	{
-		i = 0;
-		c = bintodec(got);
-		if (!concatenate(&msg, c))
+		s_i = 0;
+		c = bintodec(s_got);
+		if (!concatenate(&s_msg, c))
 		{
-			ft_putstr("Error occured at malloc");
+			ft_putstr_char("Error occured at malloc", 0);
 			exit(EXIT_FAILURE);
 		}
 		if (c == 0)
 		{
-			ft_putstr(msg);
-			free(msg);
-			msg = NULL;
+			ft_putstr_char(s_msg, 0);
+			free(s_msg);
+			s_msg = NULL;
 		}
 	}
-}
-
-int	main(void)
-{
-	ft_putstr("PID : ");
-	ft_putnbr(getpid());
-	ft_putchar('\n');
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
-	while (1)
-	{
-		pause();
-	}
-	return (0);
 }
